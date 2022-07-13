@@ -1,4 +1,0 @@
-Generally speaking, POST is used to create a new database record and PUT is used to update an existing database record.
-However, if you want to create a new database record, and you know the unique identifier ahead of time, you should probably use PUT.
-
-In this case, the route itself will be the identifier so PUT is the appropriate method.
