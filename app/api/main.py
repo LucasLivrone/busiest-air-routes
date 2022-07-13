@@ -1,5 +1,5 @@
-import os
-import uvicorn
+# import os
+# import uvicorn
 from fastapi import FastAPI, Path
 
 description = """
@@ -52,6 +52,6 @@ async def delete_a_specific_route(route):
     return True
 
 
-if __name__ == "__main__":  # pragma: no cover
-    port = int(os.environ.get("PORT", default=80))
-    uvicorn.run("api:app", host="0.0.0.0", port=port)
+# if __name__ == "__main__":  # pragma: no cover
+#     port = int(os.environ.get("PORT", default=80))
+#     uvicorn.run("main:app", host="0.0.0.0", port=port)
