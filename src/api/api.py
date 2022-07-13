@@ -33,21 +33,21 @@ app = FastAPI(
 
 
 @app.get("/GET/{route}", tags=["CRUD"])
-async def get_number_of_flights_for_a_specific_route(route):
+async def read_number_of_flights_for_a_specific_route(route):
     return True
 
 
 @app.get("/GET/routes", tags=["CRUD"])
-async def get_number_of_flights_for_all_routes(route):
+async def read_number_of_flights_for_all_routes():
     return True
 
 
-@app.get("/PUT/{route}", tags=["CRUD"])
+@app.put("/PUT/{route}", tags=["CRUD"])
 async def create_or_update_a_specific_route_flight_record(route):
     return True
 
 
-@app.get("/DELETE/{route}", tags=["CRUD"])
+@app.delete("/DELETE/{route}", tags=["CRUD"])
 async def delete_a_specific_route(route):
     return True
 
