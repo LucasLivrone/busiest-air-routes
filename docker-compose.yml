@@ -6,3 +6,14 @@ services:
     command: uvicorn api.main:app --host 0.0.0.0 --port 80
     ports:
       - "80:80"
+    depends_on:
+      - db
+
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_USER=username
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=routes
+    ports:
+      - "5432:5432"
