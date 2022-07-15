@@ -36,3 +36,13 @@ def update_route(route):
         return f"The route {route} has been updated."
     else:
         raise HTTPException(status_code=404, detail=f"The route {route} is not found.")
+
+
+def delete_route(route):
+    existing_route = db.query(models.Routes).get(route)
+    if existing_route:
+        db.delete(existing_route)
+        db.commit()
+        return f"The route {route} has been deleted."
+    else:
+        raise HTTPException(status_code=404, detail=f"The route {route} is not found.")
