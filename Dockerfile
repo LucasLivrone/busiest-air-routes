@@ -4,4 +4,4 @@ COPY ./app /app
 COPY requirements.txt /
 RUN pip install -r /requirements.txt
 ENV PYTHONPATH /
-#CMD ["python", "api/main.py"]
+CMD ["python", "api/main.py"]
