@@ -1,9 +1,10 @@
 import os
 import uvicorn
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from app.db.database import engine
 from app.db import models
 from app.api import crud
+import re  # Regex
 
 description = """
 This API will let you perform CRUD operations inside a Postgres DB that saves data about the busiest air routes.
@@ -37,6 +38,10 @@ app = FastAPI(
 models.Routes.metadata.create_all(bind=engine)
 
 
+def route_is_valid(route: str):
+    return bool(re.match("^[A-Z]{3}-[A-Z]{3}$", route))
+
+
 @app.get("/GET/{route}", tags=["CRUD"])
 async def read_number_of_flights_for_a_specific_route(route: str):
     return crud.get_route(route)
@@ -49,7 +54,10 @@ async def read_number_of_flights_for_all_routes():
 
 @app.put("/POST/{route}", tags=["CRUD"])
 async def create_a_specific_route_flight_record(route: str):
-    return crud.create_route(route)
+    if route_is_valid(route):
+        return crud.create_route(route)
+    else:
+        raise HTTPException(status_code=400, detail=f"The route {route} is not valid.")
 
 
 @app.put("/PUT/{route}", tags=["CRUD"])
@@ -58,7 +66,7 @@ async def update_a_specific_route_flight_record(route: str):
 
 
 @app.delete("/DELETE/{route}", tags=["CRUD"])
-async def delete_a_specific_route(route):
+async def delete_a_specific_route(route: str):
     return crud.delete_route(route)
 
 
