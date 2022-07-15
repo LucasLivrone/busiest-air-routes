@@ -1,6 +1,9 @@
-# import os
-# import uvicorn
-from fastapi import FastAPI, Path
+import os
+import uvicorn
+from fastapi import FastAPI
+from app.db.database import engine
+from app.db import models
+from app.api import crud
 
 description = """
 This API will let you perform CRUD operations inside a Postgres DB that saves data about the busiest air routes.
@@ -31,25 +34,32 @@ app = FastAPI(
     }
 )
 
+models.Routes.metadata.create_all(bind=engine)
+
 
 @app.get("/GET/{route}", tags=["CRUD"])
-async def read_number_of_flights_for_a_specific_route(route):
-    return True
+async def read_number_of_flights_for_a_specific_route(route: str):
+    return crud.get_route(route)
 
 
-@app.get("/GET/routes", tags=["CRUD"])
+@app.get("/GET/all/routes", tags=["CRUD"])
 async def read_number_of_flights_for_all_routes():
-    return True
+    return crud.get_all_routes()
+
+
+@app.put("/POST/{route}", tags=["CRUD"])
+async def create_a_specific_route_flight_record(route: str):
+    return crud.create_route(route)
 
 
 @app.put("/PUT/{route}", tags=["CRUD"])
-async def create_or_update_a_specific_route_flight_record(route):
-    return True
+async def update_a_specific_route_flight_record(route: str):
+    return crud.update_route(route)
 
 
-@app.delete("/DELETE/{route}", tags=["CRUD"])
-async def delete_a_specific_route(route):
-    return True
+# @app.delete("/DELETE/{route}", tags=["CRUD"])
+# async def delete_a_specific_route(route):
+#     return True
 
 
 # if __name__ == "__main__":  # pragma: no cover
